@@ -12,6 +12,20 @@ const MainScreenNavigator = TabNavigator({
   'Top Rated': { screen: TopRated },
   'Popular': { screen: Popular },
   'Upcoming': { screen: Upcoming },
+},{
+  tabBarPosition: 'bottom',
+  swipeEnabled: true,
+  tabBarOptions: {
+    activeTintColor: 'white',
+    activeBackgroundColor: 'green',
+    inactiveTintColor: 'black',
+    style: {
+      backgroundColor: 'green',
+    },
+    indicatorStyle: {
+        backgroundColor: 'white',
+    },
+  }
 });
 
 export default MainScreenNavigator;

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View,ActivityIndicator, ListView,ScrollView ,TextInput,Dimensions,Image } from 'react-native';
 import ImageElement from '../components/ImageElement';
 
+
 export default class Popular extends React.Component {
   static navigationOptions = {
     tabBarLabel : 'Popular'
@@ -32,7 +33,7 @@ export default class Popular extends React.Component {
   render() {
     let images = this.state.images.map((val,key) => {
         return <View key={key} style={styles.imagewrap}>
-                  <ImageElement imgsource={val.poster_path}/>
+                  <ImageElement imgsource={val.poster_path} movieId={val.id}/>
                </View>
     });
      if (this.state.isLoading) {
@@ -44,14 +45,11 @@ export default class Popular extends React.Component {
      }
 
      return (
-       <View style={styles.container}>
-         <ScrollView>
-           <View style={styles.photogrid}>
-             {images}
-           </View>
-         </ScrollView>
-
-       </View>
+       <ScrollView>
+         <View style={styles.photogrid}>
+           {images}
+         </View>
+       </ScrollView>
      );
    }
 }
@@ -62,12 +60,13 @@ const styles = StyleSheet.create({
   photogrid: {
     flex: 1,
     padding: 2,
+    marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
   imagewrap: {
     padding: 2,
-    height: 120,
-    width: (Dimensions.get('window').width / 2 ) - 2
+    height: 300,
+    width: (Dimensions.get('window').width /2 ) - 2
   }
 })

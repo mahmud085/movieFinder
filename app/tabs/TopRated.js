@@ -32,26 +32,16 @@ export default class TopRated extends React.Component {
   render() {
     let images = this.state.images.map((val,key) => {
         return <View key={key} style={styles.imagewrap}>
-                  <ImageElement imgsource={val.poster_path}/>
+                  <ImageElement imgsource={val.poster_path} movieId={val.id}/>
                </View>
     });
-     if (this.state.isLoading) {
-       return (
-         <View style={{flex: 1, paddingTop: 20}}>
-           <ActivityIndicator />
-         </View>
-       );
-     }
 
      return (
-       <View style={styles.container}>
          <ScrollView>
            <View style={styles.photogrid}>
              {images}
            </View>
          </ScrollView>
-
-       </View>
      );
    }
   }
@@ -62,12 +52,13 @@ export default class TopRated extends React.Component {
   photogrid: {
     flex: 1,
     padding: 2,
+    marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
   imagewrap: {
     padding: 2,
-    height: 120,
-    width: (Dimensions.get('window').width / 2 ) - 2
+    height: 300,
+    width: (Dimensions.get('window').width /2 ) - 2
   }
   })
