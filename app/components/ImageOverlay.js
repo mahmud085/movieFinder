@@ -13,6 +13,7 @@ export default class ImageOverlay extends React.Component {
     return fetch('https://api.themoviedb.org/3/movie/'+ movieId +'?api_key=15e642b68f26e9ec302bcdc82db26ec4&language=en-US')
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log(responseJson.poster_path);
         this.setState({
           modalVisible: true,
           movieDetails: responseJson,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 2,
     width: '100%',
-    height: 500
+    height: (Dimensions.get('window').height / 1.3 ) - 2,
   },
   image: {
     flex: 1,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,ActivityIndicator, ListView,ScrollView ,TextInput,Dimensions,Image } from 'react-native';
 import ImageElement from '../components/ImageElement';
-
+import InfiniteScroll from 'react-native-infinite-scroll';
 
 export default class Upcoming extends React.Component {
   static navigationOptions = {
@@ -11,17 +11,36 @@ export default class Upcoming extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      images: []
+      images: [],
+      page: 1,
     }
   }
 
   componentDidMount() {
-    return fetch('https://api.themoviedb.org/3/movie/upcoming?api_key=15e642b68f26e9ec302bcdc82db26ec4&language=en-US&page=1')
+    return fetch('https://api.themoviedb.org/3/movie/upcoming?api_key=15e642b68f26e9ec302bcdc82db26ec4&language=en-US&page='+this.state.page)
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
           isLoading: false,
           images: responseJson.results,
+        }, function() {
+          // do something with new state
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  loadMorePage(){
+    const page = this.state.page + 1;
+    const images = this.state.images;
+    return fetch('https://api.themoviedb.org/3/movie/upcoming?api_key=15e642b68f26e9ec302bcdc82db26ec4&language=en-US&page='+page)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          page: page + 1,
+          images: images.concat(responseJson.results),
         }, function() {
           // do something with new state
         });
@@ -45,11 +64,13 @@ export default class Upcoming extends React.Component {
      }
 
      return (
-       <ScrollView>
+       <InfiniteScroll
+          horizontal={false}  //true - if you want in horizontal
+          onLoadMoreAsync={this.loadMorePage.bind(this)}>
          <View style={styles.photogrid}>
            {images}
          </View>
-       </ScrollView>
+       </InfiniteScroll>
      );
    }
 }
